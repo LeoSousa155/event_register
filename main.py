@@ -9,19 +9,18 @@ def main():
             info()
             entrace = input("Escolha uma opção: ")
             print("-" * 32)
-            if entrace in ["0", "1", "2", "3", "4"]:
-                  if entrace == "0":
-                        print("Saindo do programa")
-                        break
+            if entrace in ["1", "2", "3", "0"]:
                   if entrace == "1":
                         event = event_register()
                         events.append(event)
                   if entrace == "2":
                         show_events(events)
                   if entrace == "3":
-                        compare_events()
-                  if entrace == "4":
-                        edit_event(events)
+                        edit_event(list)
+                  if entrace == "0":
+                        print("Exportando Lista de Eventos")
+                        export_events(list)
+                        break
             else:
                   print("Escolha uma opção válida.")
 

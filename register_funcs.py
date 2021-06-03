@@ -1,26 +1,27 @@
 # opções do programa e seleção
 import datetime
 
-
-class Event:
+#classe que produz os eventos a serem guardados
+class Evento:
     def __init__(self, name, date, budget):
         self.name = name
         self.date = date
         self.budget = budget
 
 
-def info(): #Prints the options the user have
+#função concluida
+def info(): #Mostra as ações que o usuário pode fazer
     print('-' * 32)
     print('Opções:'
           '\n0 --> Sair do programa'
           '\n1 --> Registar um evento'
           '\n2 --> Mostrar dados dos evento'
-          '\n3 --> Comparar 2 eventos'
-          '\n4 --> Editar um evento')
+          '\n3 --> Editar um evento')
     print('-' * 32)
 
 
-def event_register():  #Creates an instance of the class "Event"
+#fazer tratamento de erros
+def event_register():  #Cria uma instancia da classe "Evento"
     print("OK, vamos registar um evento")
     name = str(input("Nome do evento: ")).upper().replace(" ", "")
     year = int(input("Ano: "))
@@ -29,10 +30,11 @@ def event_register():  #Creates an instance of the class "Event"
     date = datetime.datetime(year, month, day)
     budget = float(input("Orçamento: "))
     print(f"Evento '{name}' registado com sucesso.")
-    return Event(name, date, budget)
+    return Evento(name, date, budget)
 
 
-def show_events(list): #show all the events registered
+#Função concluida
+def show_events(list): #mostra todos os eventos registados
     print("Mostrando todos os eventos")
     print("[indice]Nome: Ano, Mês, Dia, Orçamento(€)")
     print("")
@@ -43,11 +45,11 @@ def show_events(list): #show all the events registered
             print(f"[{index}]{element.name}: {element.date}, {element.budget:.2f}")
 
 
-def compare_events(): #compare 2 events registered
-    print("3 ok")
-
-
+#função por implementar
 def edit_event(list): #edit 1 event registered
-    element_index = int(input("Indice do evento que pretende editar: "))
-    event = list[element_index]
-    print(event.name)
+    print("ok")
+
+
+#função por implementar
+def export_events(list):
+    print("tentando exportar")
