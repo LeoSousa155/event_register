@@ -18,8 +18,8 @@ def main():
                   if entrace == "3":
                         edit_event(events)
                   if entrace == "0":
-                        print("Exportando Lista de Eventos")
-                        export_events(list)
+                        export_events(events)
+                        print("Programa concluido com sucesso.")
                         break
             else:
                   print("Escolha uma opção válida.")

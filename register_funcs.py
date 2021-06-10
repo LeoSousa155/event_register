@@ -1,13 +1,11 @@
 # opções do programa e seleção
+import xlsxwriter
 import datetime
-
 #classe que produz os eventos a serem guardados
 class Evento:
-    def __init__(self, name, year, month, day, budget):
+    def __init__(self, name, date, budget):
         self.name = name
-        self.year = year
-        self.month = month
-        self.day = day
+        self.date = date
         self.budget = budget
 
 
@@ -30,8 +28,9 @@ def event_register():  #Cria uma instancia da classe "Evento"
     month = int(input("Mês: "))
     day = int(input("Dia: "))
     budget = float(input("Orçamento: "))
+    date = datetime.date(year, month, day)
     print(f"Evento '{name}' registado com sucesso.")
-    return Evento(name, year, month, day, budget)
+    return Evento(name, date, budget)
 
 
 #Função concluida
@@ -43,7 +42,7 @@ def show_events(regist): #mostra todos os eventos registados
         print("Não existem elementos registados")
     else:
         for index, element in enumerate(regist):
-            print(f"[{index}]{element.name}: {element.year}, {element.month}, {element.day}, {element.budget:.2f}")
+            print(f"[{index}]{element.name}: {element.date}, {element.budget:.2f}")
 
 
 #fazer tratamento de erros
@@ -82,5 +81,29 @@ def edit_event(regist): #edit 1 event registered
 
 
 #função por implementar
-def export_events(list):
-    print("tentando exportar")
+def export_events(regist):
+    print("Pretende exportar os dados em formato 'xlsx'?"
+              f"\n0 --> Não"
+              f"\n1 --> Sim")
+    while True:
+        edit = input()
+        if edit in ["0", "1"]:
+            if edit == "0":
+                print("OK, tenha um bom dia.")
+                break
+            if edit == "1":
+                print("Exportando...")
+                excel = list()
+                excel.append(["Nome", "Data", "Orçamento"])
+
+                with xlsxwriter.Workbook('test.xlsx') as workbook:
+                    worksheet = workbook.add_worksheet()
+                    for event in regist:
+                        date = f"{event.date}"
+                        excel.append([event.name, date, event.budget])
+                    for index, event in enumerate(excel):
+                        worksheet.write_row(index, 0, event)
+                    print("Arquivo exportado com sucesso.")
+                    break
+        else:
+            print("Porfavor selecione uma opção válida.")
