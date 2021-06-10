@@ -1,5 +1,4 @@
 # opções do programa e seleção
-import datetime
 
 #classe que produz os eventos a serem guardados
 class Evento:
