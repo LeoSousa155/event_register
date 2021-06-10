@@ -16,7 +16,7 @@ def main():
                   if entrace == "2":
                         show_events(events)
                   if entrace == "3":
-                        edit_event(list)
+                        edit_event(events)
                   if entrace == "0":
                         print("Exportando Lista de Eventos")
                         export_events(list)
