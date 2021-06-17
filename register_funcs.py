@@ -16,8 +16,20 @@ def info(): #Mostra as ações que o usuário pode fazer
           '\n0 --> Sair do programa'
           '\n1 --> Registar um evento'
           '\n2 --> Mostrar dados dos evento'
-          '\n3 --> Editar um evento')
+          '\n3 --> Editar um evento'
+          '\n4 --> Exportar eventos em Excel')
     print('-' * 32)
+
+
+def decision(answer):
+    while True:
+        if answer in ["0", "1"]:
+            if answer == "0":
+                return False
+            if answer == "1":
+                return True
+        else:
+            print("Escolha uma opção válida.")
 
 
 #fazer tratamento de erros
@@ -66,44 +78,25 @@ def edit_event(regist): #edit 1 event registered
     print(f"'{regist[index].name}' é o evento que pretende editar?"
           f"\n0 --> Não"
           f"\n1 --> Sim")
-    while True:
-        edit = input()
-        if edit in ["0", "1"]:
-            if edit == "0": #Não editar (concluir execução da função)
-                print(f"Cancelando a edição do evento '{regist[index].name}'")
-                break
-            if edit == "1": #Editar (Sobreescrever evento com "Event Register"
-                regist[index] = event_register()
-                print("Evento editado com sucesso")
-                break
-        else:
-            print("Porfavor selecione uma opção válida.")
+    edit = input()
+    if decision(edit):
+        regist[index] = event_register()
+        print("Evento editado com sucesso")
+    else: #Editar (Sobreescrever evento com "Event Register"
+        print(f"Cancelando a edição do evento '{regist[index].name}'")
+
 
 
 #função por implementar
 def export_events(regist):
-    print("Pretende exportar os dados em formato 'xlsx'?"
-              f"\n0 --> Não"
-              f"\n1 --> Sim")
-    while True:
-        edit = input()
-        if edit in ["0", "1"]:
-            if edit == "0":
-                print("OK, tenha um bom dia.")
-                break
-            if edit == "1":
-                print("Exportando...")
-                excel = list()
-                excel.append(["Nome", "Data", "Orçamento"])
-
-                with xlsxwriter.Workbook('test.xlsx') as workbook:
-                    worksheet = workbook.add_worksheet()
-                    for event in regist:
-                        date = f"{event.date}"
-                        excel.append([event.name, date, event.budget])
-                    for index, event in enumerate(excel):
-                        worksheet.write_row(index, 0, event)
-                    print("Arquivo exportado com sucesso.")
-                    break
-        else:
-            print("Porfavor selecione uma opção válida.")
+    print("Exportando...")
+    excel = list()
+    excel.append(["Nome", "Data", "Orçamento"])
+    with xlsxwriter.Workbook('test.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+        for event in regist:
+            date = f"{event.date}"
+            excel.append([event.name, date, event.budget])
+        for index, event in enumerate(excel):
+            worksheet.write_row(index, 0, event)
+        print("Arquivo exportado com sucesso.")
