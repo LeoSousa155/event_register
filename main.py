@@ -1,4 +1,4 @@
-from  register_funcs import *
+from register_funcs import *
 
 
 def main():
@@ -32,7 +32,9 @@ def main():
                               if decision(edit):
                                     export_events(events)
                               else:
-                                    print("Programa concluido com sucesso.")
+                                    print("O arquivo não foi exportado.")
+                        else:
+                              print("Programa concluido com sucesso.")
                         break
             else:
                   print("Escolha uma opção válida.")

@@ -1,6 +1,9 @@
-# opções do programa e seleção
+from secundary_functions import *
 import xlsxwriter
 import datetime
+
+# opções do programa e seleção
+
 #classe que produz os eventos a serem guardados
 class Evento:
     def __init__(self, name, date, budget):
@@ -9,7 +12,6 @@ class Evento:
         self.budget = budget
 
 
-#função concluida
 def info(): #Mostra as ações que o usuário pode fazer
     print('-' * 32)
     print('Opções:'
@@ -20,26 +22,30 @@ def info(): #Mostra as ações que o usuário pode fazer
           '\n4 --> Exportar eventos em Excel')
     print('-' * 32)
 
-
-def decision(answer):
-    while True:
-        if answer in ["0", "1"]:
-            if answer == "0":
-                return False
-            if answer == "1":
-                return True
-        else:
-            print("Escolha uma opção válida.")
-
-
 #fazer tratamento de erros
 def event_register():  #Cria uma instancia da classe "Evento"
     print("OK, vamos registar um evento")
-    name = str(input("Nome do evento: ")).upper().replace(" ", "")
-    year = int(input("Ano: "))
-    month = int(input("Mês: "))
-    day = int(input("Dia: "))
-    budget = float(input("Orçamento: "))
+    while True:
+        name = input("Nome do evento: ")
+        if len(name) != 0:
+            break
+        else:
+            print("Porfavor não deixe o nome vazio.")
+
+    year = numeric_input("Ano: ",1,  9999)
+    month = numeric_input("Mês: ",1,  12)
+    if month in (4, 6, 9, 11):
+        max_day = 30
+    elif month in (1, 3, 5, 7, 8, 12):
+        max_day = 31
+    elif month == 2 and (year % 4 == 0 or year % 400 == 0) and year % 100 != 0:
+        max_day = 29
+    else:
+        max_day = 28
+
+    day = numeric_input("Dia: ",1,  max_day)
+    budget = numeric_input("Orçamento: ")
+
     date = datetime.date(year, month, day)
     print(f"Evento '{name}' registado com sucesso.")
     return Evento(name, date, budget)
@@ -57,24 +63,15 @@ def show_events(regist): #mostra todos os eventos registados
             print(f"[{index}]{element.name}: {element.date}, {element.budget:.2f}")
 
 
-#fazer tratamento de erros
-def edit_event(regist): #edit 1 event registered
+def edit_event(regist): #edita um evento registado
     print("-" * 32)
     if len(regist) == 0:
         print("Não existem elementos para editar, porfavor registe um evento antes de executar esta função.")
         return
 
     show_events(regist)
-    #tratar o input do usuario para que n de erro
-    while True: #Seleção do indice do evento a ser editado
-        index = int(input("Seleciona o evento que pretendes editar (indice): "))
-        if index  not in range(len(regist)):
-            print("Porfavor selecione um indice válido")
-        else:
-            break
-
-    #Tratamento de erros dependente do tratamento do "Event Register"
     #Seleção do evento a ser editado
+    index = numeric_input("Seleciona o evento que pretendes editar (indice): ", 0, len(regist) - 1)
     print(f"'{regist[index].name}' é o evento que pretende editar?"
           f"\n0 --> Não"
           f"\n1 --> Sim")
@@ -86,8 +83,6 @@ def edit_event(regist): #edit 1 event registered
         print(f"Cancelando a edição do evento '{regist[index].name}'")
 
 
-
-#função por implementar
 def export_events(regist):
     print("Exportando...")
     excel = list()
